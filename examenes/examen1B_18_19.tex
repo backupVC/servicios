@@ -1,0 +1,86 @@
+\documentclass[addpoints,12pt]{exam}
+\usepackage[spanish]{babel}
+%\usepackage[latin1]{inputenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{hyperref}
+\pagestyle{empty}
+\begin{document}
+\begin{center}
+\fbox{\fbox{\parbox{5.5in}{\centering {\LARGE EXAMEN TIPO B}\\Sigue las intrucciones que marca cada ejercicio, no solo para la realización del mismo sino también para la entrega de los mismos.\\\emph{No se permite ningun documento de ayuda, excepto los aportados por el profesor}\\\textbf{No se corregira ejercicios con errores de programación}}}}
+\end{center}
+\vspace{0.1in}
+%\makebox[\textwidth]{Nombre:\enspace\hrulefill}
+\begin{questions}
+\question(3.5 ptos) Crea una clase en \emph{javascript} que use como argumento un \emph{array} de objetos persona con los siguientes campos (iguales que los datos del fichero de \emph{arrays} de \emph{datos.csv} que se te proporciona):
+\begin{itemize}
+\item name
+\item age
+\item email
+\item rol
+\end{itemize}
+Y proporciones los siguientes métodos:
+\begin{itemize}
+\item Nos de el número de personas con una edad superior a una dada.
+\item Nos de un array de objetos persona que tenga una edad y un rol determinado.
+\item Nos de un array de email dado un rol determinado.
+\end{itemize}
+Se aporta un fichero denominado \emph{datos.csv} y un programa \emph{leerCSV.js} que se encarga de leer los datos y crear un array de objeto persona que debes usar para comprobar los métodos de la clase. Este fichero (\emph{leerCSV.js}) no debes modificar la lectura del fichero CSV, el se encarga de eliminar la cabecera, parsear todas las líneas y construye el array de objetos que vas a usar\\
+Como datos de comprobación puedes usar:\\
+En el caso del primer método, el número de personas mayor que 40 son 55\\
+En el segundo caso con 50 años y rol Engineer hay solo dos objetos\\
+En el último método si introducimos \emph{Engineer} debes obtener un array de tamaño 53, en el caso de \emph{Webmaster} es de 24
+
+\newpage
+
+\question(3 ptos) Se te proporciona un fichero denominado \emph{datos.json} que es un array de json. Importa dichos datos a la BD de mongo, usa como nombre de BD \emph{test} y coleccion \emph{users}.
+\begin{itemize}
+\item Obtén todos los resultados de objetos que sean mayores de 50 años o menores de 20.
+\item Obtén todos los resultados cuyo email acabe en \emph{.org}.
+\item Igual que antes pero que incluya tanto a los menores o igual de 50 y además su correo acabe en \emph{.org}
+\item Añade un nuevo objeto con email correo\@email.es, nombre Pedrito Pérez, edad 21 y rol Webmaster.
+\item Actualiza la edad del dato anterior a 21, usando el nombre como patrón de búsqueda.
+\item Finalmente borra dicho objeto con el email.
+\end{itemize}
+
+\question(3.5 ptos) Se te aporta un servicio web con arquitectura REST. Con \emph{node.js, express, mongodb y mongoose} que va a usar la BD de datos anterior y la colección del ejercicio anterior.
+\begin{parts}
+
+\part Modifica el modelo para que tenga en cuenta:
+\begin{itemize}
+\item La edad debe ser mayor que 18
+\item El correo sea único y como valor por defecto email@email.es
+\item El rol solo pueda tomar los siguientes valores: \emph{Consultant, CEO, Secretary, Translator, Typist, Webmaster, Engineer, Prueba)}. Por defecto Webmaster.
+\item 
+\end{itemize}
+\part Crea una nueva ruta llamada \emph{examenB} que responda a las sig1uientes funcionalidades:
+\begin{itemize}
+\item Obtener los objetos dada una edad determinada y su correo acabe en un valor determinado. Si pruebas con 50 y .com y obtendras:
+\begin{enumerate}
+\item Ransom Bruhke,50,rbruhkei@bigcartel.com,Engineer
+\item Tyrus Gerbel,50,tgerbel15@time.com,Engineer
+\end{enumerate}
+\item Actualizar el correo a correo\@correo.es a aquellos que tenga como rol \emph{CEO}
+
+\end{itemize}
+\end{parts}
+\end{questions}
+\newpage
+Entrega del ejercicio: el ejercicio se entregará en un documento comprimido con el formato: apellidosNombre.tar.gz o apellidosNombre.zip con la siguiente estrucutura:
+\begin{itemize}
+\item Se crearán tres directorios, uno denominado \emph{ejercicio1}, \emph{ejercicio2} y otro \emph{ejercicio3}.
+\item En la carpeta ejercicio1 se entregara los dos archivos de \emph{javascript}, el que se te aporta mas el closure que tu hagas
+\item En la carpeta ejercicio2 se entregará un fichero de texto plano con las consultas mas el comando de importación del array de json.
+\item En el ejercicio3 se entregara el servicio web modificado. Como se aporta el fichero \emph{package.json} no hace falta aportar el directorio \emph{node\_modules}
+\end{itemize}
+\vspace{0,5cm}
+\hrule
+\vspace{0,5cm}
+Documentación a utilizar:
+\begin{itemize}
+\item \href{https://www.w3schools.com/js/}{Documentación de \emph{javascript}}
+\item \href{http://www.etnassoft.com/2016/12/02/introduccion-a-la-poo-en-javascript-moderno-las-nuevas-clases-en-es6/}{Clases con \emph{javascript}}
+\item \href{https://docs.mongodb.com/manual/crud/}{CRUD con \emph{mongodb}}
+\item \href{https://mongoosejs.com/docs/schematypes.html}{Validación \emph{mongoose}}
+\item \href{https://www.codementor.io/olatundegaruba/nodejs-restful-apis-in-10-minutes-q0sgsfhbd}{Aplicación REST con node, express y mongo}
+\end{itemize}
+\end{document}

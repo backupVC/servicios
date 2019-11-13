@@ -1,0 +1,26 @@
+mongoimport --db ejercicio --collection humanos --type json --file personas.json --jsonArray
+
+db.humanos.find().pretty()
+
+db.humanos.insert ({id : 1001, sexo : 'Male', edad : 22, nombre : 'Joaquin Cortés'})
+
+db.humanos.find({ id : 1001})
+
+db.humanos.find({edad : 51})
+
+db.humanos.find({edad : {$gte : 18}})
+
+db.humanos.find({edad : {$lt : 18} , sexo : 'Female'})
+db.humanos.find({ $and : [{edad : {$lt : 18}} , {sexo : 'Female'}]})
+
+db.humanos.find({ edad : {$lte : 18} , sexo : 'Female', nombre : /^A/})
+
+db.humanos.find({ edad : {$lte : 18} , sexo : 'Female', nombre : /^[AF]/})
+
+db.humanos.update( { nombre : 'Manuel Molino' } , {$set : { sexo : 'Female' } 
+
+db.humanos.update( { edad : {$lt : 18}  } , {$set : { sexo : 'Male' } }, {multi:true} )
+db.humanos.update({} , {$set : {fecha : new Date() }}, {multi:true})
+
+mongoexport -d ejercicio -c humanos -q '{ edad : {$gte : 18}}' --limit 100 --skip 200 --out salida.json
+

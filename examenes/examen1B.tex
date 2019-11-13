@@ -1,0 +1,74 @@
+\documentclass[addpoints,12pt]{exam}
+\usepackage[spanish]{babel}
+%\usepackage[latin1]{inputenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{hyperref}
+\pagestyle{empty}
+\begin{document}
+\begin{center}
+\fbox{\fbox{\parbox{5.5in}{\centering {\LARGE EXAMEN TIPO B}\\Sigue las intrucciones que marca cada ejercicio, no solo para la realización del mismo sino también para la entrega de los mismos.\\\emph{No se permite ningun documento de ayuda, excepto los aportados por el profesor}\\\textbf{No se corregira ejercicios con errores de programación}}}}
+\end{center}
+\vspace{0.1in}
+%\makebox[\textwidth]{Nombre:\enspace\hrulefill}
+\begin{questions}
+\question(4 ptos) Crea los siguientes programas en \emph{javascript}:
+\begin{parts}
+\part
+(2 ptos) Un cierre que pase como argumentos un \emph{array} de objetos equipos con los siguientes campos (iguales que los datos del fichero de \emph{arrays} de \emph{json} que se te proporiciona):
+\begin{itemize}
+\item host
+\item mac
+\item ipv4
+\end{itemize}
+Y realice las siguientes operaciones
+\begin{itemize}
+\item Nos de el número de equipos cuya IP empiezan por un octeto determinado (Ejemplo: los que empiezan por 192, los que empiezan por 44, ...)
+\item Nos de un objeto equipo dada una mac.
+\item Nos de un array de objetos equipo de un dominio determinado (.com, .es, .info, ...)
+\end{itemize}
+(2 ptos) Un programa denominada \emph{main.js} que lea el fichero \emph{examen1B.json} que consta de un array de \emph{json} sobre datos de equipos. Para la lectura solo tienes que usar el método \emph{readFile} con la correspondiente \emph{callback} y parsear los datos solamente con \emph{JSON.parse}. (No hace falta liar tanto código como en el ejemplo realizado en clase con un fichero de tipo \emph{CSV}).\\
+Una vez realizada dicha lectura, el código debe hacer:
+\begin{itemize}
+\item Importar el \emph{cierre} anterior.
+\item Llamar a las funciones del interfaz del cierre y mostrar los datos en consola
+\end{itemize}
+\end{parts}
+
+\newpage
+
+\question(4 ptos) Servicio web con arquitectura REST. Con \emph{node.js, express, mongodb y mongoose}
+\begin{parts}
+
+\part Crea una base de datos en \emph{mongodb} denominada \emph{examen}. Importa los datos del fichero \emph{examen1B.json} a una colección de dicha base de datos, llama a dicha colección \emph{computers}
+\part Crea una aplicación RESTful con las siguientes acciones, dichas acciones corresponde a rutas del servicio web usando como persistencia la base de datos de \emph{mongodb} anterior.
+\begin{itemize}
+\item Obtener un documento de la dirección mac de un equipo
+\item Crear un equipo nuevo
+\item Borrar un equipo dada la dirección mac.
+\end{itemize}
+\part Se valorara el uso de modularidad y la creación de un fichero \emph{package.json}
+\end{parts}
+\end{questions}
+\vspace{0,5cm}
+\hrule
+\vspace{0,5cm}
+Entrega del ejercicio: el ejercicio se entregará en un documento comprimido con el formato: apellidosNombre.tar.gz o apellidosNombre.zip con la siguiente estrucutura:
+\begin{itemize}
+\item Se crearán dos directorios, uno denominado \emph{ejercicio1} y otro \emph{ejercicio2}.
+\item En el ejercicio1 se entregara los archivos de \emph{javascript}
+\item En el ejercicio2 se entregara los archivos correspondientes. En el caso que se aporte el fichero \emph{package.json} no hace falta aportar el directorio \emph{node\_modules}
+\end{itemize}
+\vspace{0,5cm}
+\hrule
+\vspace{0,5cm}
+Documentación a utilizar:
+\begin{itemize}
+\item \href{https://www.w3schools.com/js/}{Documentación de \emph{javascript}}
+\item \href{https://nodejs.org/dist/latest-v8.x/docs/api/}{Documentación \emph{node.js}}
+\item \href{https://docs.mongodb.com/manual/crud/}{CRUD con \emph{mongodb}}
+\item \href{http://expressjs.com/es/}{Documentación \emph{express}}
+\item \href{http://mongoosejs.com/docs/guide.html}{Documentación \emph{mongoose}}
+\item \href{https://docs.npmjs.com/}{Documentación \emph{npm}}
+
+\end{itemize}
+\end{document}

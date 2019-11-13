@@ -1,0 +1,360 @@
+\documentclass[4paper]{article}
+\usepackage[spanish]{babel}
+%\usepackage[ansinew]{inputenc}
+\usepackage[utf8x]{inputenc}
+%\usepackage[utf-8]{inputenc}
+%\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{float}
+\usepackage{hyperref} 
+%\usepackage{longtable}
+%\usepackage{array}
+%\usepackage{multirow}
+%\usepackage[latin1]{inputenc}
+%\inputencoding{latin}
+\newcommand{\J}{Java}
+\newcommand{\p}{procesos}
+\newcommand{\s}{procesos}
+
+%\newcommand{\j}{JavaScript }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Para escribir codigo en latex
+\usepackage{listings}
+\usepackage{color}
+
+
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstset{
+   language=JavaScript,
+   backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+  % numbers=left,
+   numberstyle=\footnotesize,
+   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\tablename}{Tabla}
+\renewcommand{\S}{ \p}
+\author{Manuel Molino Milla}
+\title{\textbf{Mongoose}}
+\date{\today}
+
+\begin{document}
+\maketitle 
+\tableofcontents
+\newpage
+
+\section{Introducción}
+
+\begin{itemize}
+\item \emph{Moongose} es un modulo de \emph{node.js} 
+\item Hace de puente entre \emph{node.js} y \emph{mongodb}
+\item Trabaja como un \emph{ORM} (Object-Relational mapping), que es una técnica de programación para convertir datos entre el sistema de tipos utilizado en un lenguaje de programación orientado a objetos y la utilización de una base de datos.
+\end{itemize}
+
+\subsection{Instalacion}
+\begin{lstlisting}
+npm install mongoose
+\end{lstlisting}
+
+\subsection{Uso en node.js}
+\begin{lstlisting}
+var mongoose = require('mongoose');
+\end{lstlisting}
+
+\subsection{Conexión a la BD}
+\begin{lstlisting}
+mongoose.mongoose.connect('mongodb://localhost/myappdatabase');
+\end{lstlisting}
+
+
+\subsection{Esquemas}
+Todo en \emph{mongoose} comienza con un esquema. Cada esquema \emph{mapea} la coleccion definida en \emph{MongoDB} y define la forma de acceder a sus datos. Ejemplo: 
+\begin{lstlisting}
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
+var blogSchema = new Schema({
+  title:  String,
+  author: String,
+  body:   String,
+  comments: [{ body: String, date: Date }],
+  date: { type: Date, default: Date.now },
+  hidden: Boolean,
+  meta: {
+    votes: Number,
+    favs:  Number
+  }
+});
+var Blog =  mongoose.model('Blog', blogSchema);
+//importante Blog mayuscula de blog que
+//es la coleccion en la base de datos-
+\end{lstlisting}
+\newpage
+Los tipos permitidos en este esquema son:
+\begin{itemize}
+\item String
+\item Number
+\item Date
+\item Buffer
+\item Boolean
+\item Mixed
+\item Objectid
+\item Array
+\end{itemize}
+\newpage
+Ejemplo:
+\begin{lstlisting}
+var schema = new Schema({
+  name:    String,
+  binary:  Buffer,
+  living:  Boolean,
+  updated: { type: Date, default: Date.now },
+  age:     { type: Number, min: 18, max: 65 },
+  mixed:   Schema.Types.Mixed,
+  _someId: Schema.Types.ObjectId,
+  array:      [],
+  ofString:   [String],
+  ofNumber:   [Number],
+  ofDates:    [Date],
+  ofBuffer:   [Buffer],
+  ofBoolean:  [Boolean],
+  ofMixed:    [Schema.Types.Mixed],
+  ofObjectId: [Schema.Types.ObjectId],
+  ofArrays:   [[]]
+  ofArrayOfNumbers: [[Number]]
+  nested: {
+    stuff: { type: String, lowercase: true, trim: true }
+  }
+})
+
+// example use
+
+var Thing = mongoose.model('Thing', schema);
+
+var m = new Thing;
+m.name = 'Statue of Liberty';
+m.age = 125;
+m.updated = new Date;
+m.binary = new Buffer(0);
+m.living = false;
+m.mixed = { any: { thing: 'i want' } };
+m.markModified('mixed');
+m._someId = new mongoose.Types.ObjectId;
+m.array.push(1);
+m.ofString.push("strings!");
+m.ofNumber.unshift(1,2,3,4);
+m.ofDates.addToSet(new Date);
+m.ofBuffer.pop();
+m.ofMixed = [1, [], 'three', { four: 5 }];
+m.nested.stuff = 'good';
+m.save(callback);
+\end{lstlisting}
+\newpage
+\begin{lstlisting}
+var schema1 = new Schema({
+  test: String // `test` is a path of type String
+});
+
+var schema2 = new Schema({
+  test: { type: String } // `test` is a path of type string
+});
+\end{lstlisting}
+
+
+\begin{lstlisting}
+var schema2 = new Schema({
+  test: {
+    type: String,
+    lowercase: true // Always convert `test` to lowercase
+  }
+});
+\end{lstlisting}
+
+\begin{lstlisting}
+var numberSchema = new Schema({
+  integerOnly: {
+    type: Number,
+    get: v => Math.round(v),
+    set: v => Math.round(v),
+    alias: 'i'
+  }
+});
+
+var Number = mongoose.model('Number', numberSchema);
+
+var doc = new Number();
+doc.integerOnly = 2.001;
+doc.integerOnly; // 2
+doc.i; // 2
+doc.i = 3.001;
+doc.integerOnly; // 3
+doc.i; // 3
+\end{lstlisting}
+
+\begin{lstlisting}
+var schema2 = new Schema({
+  test: {
+    type: String,
+    index: true,
+    unique: true // Unique index. If you specify `unique: true`
+    // specifying `index: true` is optional if you do `unique: true`
+  }
+});
+\end{lstlisting}
+\newpage
+\subsection{Creando datos}
+\begin{lstlisting}
+var User = require('./user');
+
+var newUser = User({
+  id : 2001,
+  sexo : 'Male',
+  edad : 100,
+  nombre : "Nuevo usuario desde  moongose"
+});
+
+newUser.save(function(err) {
+  if (err) throw err;
+  console.log("Usuario creado");
+});
+\end{lstlisting}
+
+
+\subsection{Leyendo datos}
+Obteniendo todos los datos:
+\begin{lstlisting}
+// get all the users
+User.find({}, function(err, users) {
+  if (err) throw err;
+
+  // object of all the users
+  console.log(users);
+});
+\end{lstlisting}
+Obteniendo un dato determinado:
+\begin{lstlisting}
+// get the user starlord55
+User.find({ username: 'starlord55' }, function(err, user) {
+  if (err) throw err;
+
+  // object of the user
+  console.log(user);
+});
+\end{lstlisting}
+Buscando por \emph{id}
+\begin{lstlisting}
+// get a user with ID of 1
+User.findById(1, function(err, user) {
+  if (err) throw err;
+
+  // show the one user
+  console.log(user);
+});
+\end{lstlisting}
+Consultas:
+\begin{lstlisting}
+User.find({first_name : /^M/, id : {$gt : 800}}, function (err, data){
+  if (err) throw err;
+  console.log(data);
+});
+\end{lstlisting}
+
+\subsection{Actualizaciones}
+Buscar y actualizar un registros:
+\begin{lstlisting}
+// find the user starlord55
+// update him to starlord 88
+User.findOneAndUpdate({ username: 'starlord55' }, { username: 'starlord88' }, function(err, user) {
+  if (err) throw err;
+
+  // // muestra el antiguo
+  console.log(user);
+  // con {new: true}
+  // muestra el nuevo
+});
+\end{lstlisting}
+
+Buscar y actualizar múltiples registros:
+\begin{lstlisting}
+User.update({first_name : 'Manuel'}, {last_name : 'Multiples cambios'}, 
+       {multi : true}, function (err, datos) {
+                if (err) throw err;
+                console.log(datos);
+});
+\end{lstlisting}
+
+Buscar por \emph{id} y actualizar
+\begin{lstlisting}
+// find the user with id 4
+// update username to starlord 88
+User.findByIdAndUpdate(4, { username: 'starlord88' }, function(err, user) {
+  if (err) throw err;
+
+  console.log(user);
+  
+});
+\end{lstlisting}
+
+
+\subsection{Borrado de datos}
+Buscar y eliminar a la vez:
+\begin{lstlisting}
+User.findOneAndRemove({ username: 'starlord55' }, function(err) {
+  if (err) throw err;
+
+  // we have deleted the user
+  console.log('User deleted!');
+});
+\end{lstlisting}
+
+Buscar por \emph{id} y borrar:
+\begin{lstlisting}
+// find the user with id 4
+User.findByIdAndRemove(4, function(err) {
+  if (err) throw err;
+
+  // we have deleted the user
+  console.log('User deleted!');
+});
+\end{lstlisting}
+
+\subsection{Mas ejemplos}
+\href{http://mongoosejs.com/docs/queries.html}{consultas}
+
+\section{Ejercicios}
+\begin{itemize}
+\item En la colección usada en el tema de \emph{MongoDB} inserta un nuevo dato con valor de \emph{id} igual a \emph{2000}
+\item Realizando una búsqueda en la colección, indica cuantas personas tienen 100 años de edad.
+\item Indica las personas que su edad está comprendida entre 100 y 98.
+\item Busca aquellos documentos que corresponda a personas que sean menores de edad y su nonbre empieza por vocal.
+\item Actualiza el documento que le corresponde un \emph{id} igual a 2000 y cambia su edad a 18.
+\item Finalmente borra este documento.
+\end{itemize}
+\end{document}

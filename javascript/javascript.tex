@@ -1,0 +1,877 @@
+\documentclass[4paper]{article}
+\usepackage[spanish]{babel}
+%\usepackage[ansinew]{inputenc}
+\usepackage[utf8x]{inputenc}
+%\usepackage[utf-8]{inputenc}
+%\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{float}
+%\usepackage{longtable}
+%\usepackage{array}
+%\usepackage{multirow}
+%\usepackage[latin1]{inputenc}
+%\inputencoding{latin}
+\newcommand{\J}{JavaScript}
+%\newcommand{\j}{JavaScript }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Para escribir codigo en latex
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstset{
+   language=JavaScript,
+   backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+  % numbers=left,
+   numberstyle=\footnotesize,
+   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand{\tablename}{Tabla}
+\renewcommand{\S}{Introducción a Javascript }
+\author{Manuel Molino Milla}
+\title{\textbf{\S}}
+\date{\today}
+
+\begin{document}
+\maketitle 
+\tableofcontents
+\newpage
+
+\section{Introducción}
+\subsection{¿Qué es \J?}
+\begin{itemize}
+\item Es el lenguaje de programación en la web.
+\item Los navegadores ejecutan código \J . Hoy en día las páginas web contiene un alto contenido de éste lenguaje. Hablamos de \J ~ en el lado del cliente. 
+\item Bases de datos \textit{NoSQL} como \textit{CoucheDB} o \textit{MongoDB} usan \J ~ en sus script o consultas.
+\item Encontramos \J ~ en el lado del servidor en proyectos como \textit{Node.js}
+\end{itemize}
+
+\subsection{Características de \J}
+\begin{itemize}
+\item Es un lenguaje de programación interpretado.
+\item Es orientado a objetos.
+\item Basado en prototipos.
+\item Débilmente tipado.
+\item Dinámico.
+\end{itemize}
+
+\subsection{Historia de \J}
+\begin{itemize}
+\item Fue desarrollado originalmente por \textit{Brendan Eich} de \textit{Netscape} con el nombre de \textit{Mocha}.
+\item Posteriormente fue renombrado a \textit{LiveScript} y posteriormente pasó a ser \J
+\item En 1997 se propuso que \J ~ fuera adoptado como estándar \emph{ECMA} con el nombre de \emph{ECMAScript}, posteriormente fue un estándar \emph{ISO}
+\item Hoy en día el último estándar es de junio de 2015 denominado \textit{ECMAScript 6}
+\end{itemize}
+
+\subsection{Ejecución de \J}
+\begin{itemize}
+\item Podemos ejecutar en un navegador y utilizar la consola del mismo. Ejemplo en \emph{Firefox} en \emph{menu} tenemos la opción de \textit{desarrollador} y en éste la \textit{consola web}.
+\item Podemos usar un intérprete como puede ser \textit{node}.
+\end{itemize}
+
+\subsection{Instalación Node.js}
+%buscar página de netbeans y node
+\subsection{Ejecución de código}
+console.log('hola mundo');
+
+\subsection{Diferencias con otros lenguajes}
+\begin{itemize}
+\item \J ~ no soporta clases como otros lenguajes como Java
+\item En cambio en \J ~ la mayoría de datos son objetos o se acceden a través de objetos.
+\item Incluso las funciones son objetos por lo que hace de ellas funciones de primera clase.
+\item En \J ~ se pueden crear objetos en cualquier momento y añadir o quitar propiedades de éstos.
+\item Creando objetos:
+\end{itemize}
+%\begin{verbatim}
+\begin{lstlisting}
+//creando un objeto sin propiedades 
+//posteriormente se incluyen
+//ECMAS5: definicion variables con var
+var objeto1 ={};
+objeto1.propiedad  = "soy un objeto";
+objeto1.indice = 1;
+console.log(objeto1);
+//creando un objeto con propiedades
+//posteriormente quitamos alguna de ellas
+var objeto2 = {
+  nombre: 'soy otro objeto',
+  indice: 2
+}
+console.log(objeto2);
+delete objeto2.indice;//borrando objetos
+console.log(objeto2);
+\end{lstlisting}
+
+\section{Defición de variables en \J}
+\begin{itemize}
+\item Dejamos de usar la palabra reservarda \emph{var}.
+\item Usamos \emph{let} en la definición de variables.
+\item Usamos \emph{const} en la definición de constantes. 
+\end{itemize}
+\begin{lstlisting}
+const URL = 'www.mydomain.com';
+URL = 'whatever'; // ERROR!!
+/////////////////////////////
+if (x > y) {
+  let gamma = 12.7 + y;
+  i = gamma * x;
+}
+\end{lstlisting}
+La variable tipo let, a diferencia de var no puede ser accesible más allá de su \emph{scope}.
+\begin{lstlisting}
+(function() {
+  console.log(global); // undefined
+  console.log(local); // undefined
+  if(true) {
+    var global = "I'm global";
+    let local = "I'm only local";
+  }
+  console.log(global); // I'm global
+  console.log(local); //undefined
+})();
+\end{lstlisting}
+\section{Tipos de datos en \J}
+\subsection{Introducción}
+\begin{itemize}
+\item Aunque \J ~ no usa clase, tiene dos tipos de datos: datos primitivos y referencias.
+\item Tipos primitivos que almacena en memoria dicho datos simple.
+\item Y las referencias que almacena las posiciones de memoria donde está localizado el objeto.
+\end{itemize}
+
+\subsection{Tipos primitivos en \J}
+\begin{description}
+\item[boolean] con valores \emph{true} o \emph{false}
+\item[number] cualquier entero o número en coma flotante.
+\item[string] un caracter o un conjunto de caracteres delimitados por comillas simples o dobles.
+\item[null] con un único valor null.
+\item[undefined] con un único valor undefined, es el caso en que una variable no se le  ha asignado valor alguno.
+\end{description}
+En \emph{ECMAScript 6} aparece un nuevo tipo denominado \emph{symbol}
+
+
+\subsection{Number}
+\begin{itemize}
+\item Representa tanto enteros de 32 bits y reales de 64 bits.
+\end{itemize}
+\begin{lstlisting}
+let entero = 555;
+let real = 600.2;
+\end{lstlisting}
+
+Tenemos valores especiales como:
+\begin{itemize}
+\item Number.MAX\_VALUE
+\item Number.MIN\_VALUE
+\item Number.POSITIVE\_INFINITY
+\item Number.NEGATIVE\_INFINITY
+\item Tenemos métodos como \emph{isInfinite()} para veriificar estos dos últimos valores.
+\item NaN (\emph{Not a Number})
+\item Y tenemos el método isNan() para comprobar si es un \emph{NaN}. Ejemplo isNaN(''elephant''); que devuelve \emph{true}
+\end{itemize}
+Tenemos la biblioteca Math para operaciones matemáticas:
+\begin{itemize}
+\item Math.E \textit{(número e)}
+\item Math.abs(-900) \textit{valor absoluto de de -900}
+\item Math.pow(2,3) \textit{2 elevado a tres}.
+\end{itemize}
+Podemos convertir \emph{string} a enteros o float:
+\begin{itemize}
+\item simplemente con ''12''+3 realiza el casting a \emph{string}.
+\item parseInt(''230'',10); (el 10 es la base);
+\item Interesante comprobar que es un número:
+\end{itemize}
+\begin{lstlisting}
+let underterminedValue = "elephant";
+if (isNaN(parseInt(underterminedValue,2)))
+ {
+   console.log("handle not a number case");
+  }
+else
+ {
+   console.log("handle number case");
+ }
+\end{lstlisting}
+\subsection{string}
+Es una secuencia de caracteres Unicode. Se pueden crear con comillas dobles o comillas simples.\\
+Una característica es que podemos usar \emph{wrapper} para envolver este tipo de dato primitivo:
+\begin{lstlisting}
+let s = new String("dummy"); //Creates a String object
+console.log(s); //"dummy"
+console.log(typeof s); //"object"
+let nonObject = "1" + "2"; //Create a String primitive
+console.log(typeof nonObject); //"string"
+let objString = new String("1" + "2"); //Creates a String object
+console.log(typeof objString); //"object"
+//Helper functions
+console.log("Hello".length); //5
+console.log("Hello".charAt(0)); //"H"
+console.log("Hello".charAt(1)); //"e"
+console.log("Hello".indexOf("e")); //1
+console.log("Hello".lastIndexOf("l")); //3
+console.log("Hello".startsWith("H")); //true
+console.log("Hello".endsWith("o")); //true
+console.log("Hello".includes("X")); //false
+let splitStringByWords = "Hello World".split(" ");
+console.log(splitStringByWords); //["Hello", "World"]
+let splitStringByChars = "Hello World".split("");
+console.log(splitStringByChars); //["H", "e", "l", "l", "o", " ",
+"W", "o", "r", "l", "d"]
+console.log("lowercasestring".toUpperCase()); //"LOWERCASESTRING"
+console.log("UPPPERCASESTRING".toLowerCase());
+//"upppercasestring"
+console.log(" There are no spaces in the end ".trim());
+//"There are no spaces in the end"
+\end{lstlisting}
+
+\subsection{undefined}
+Aparece cuando a una variable no asignamos valor:
+\begin{lstlisting}
+let xl;
+console.log(typeof xl); \\undefined
+\end{lstlisting}
+
+\subsection{boolean}
+Representados por dos valores \emph{true} y \emph{false}. Debemos tener en cuenta las dos reglas siguientes:
+\begin{itemize}
+\item false, 0, un string vacío, NaN, null y undefined se representa como \emph{false}
+\item El resto es true.
+\end{itemize}
+
+\subsection{Identificando datos primitivos}
+La mejor formqa de identificar datos primitivos es usar el operador \emph{typeof}:
+\begin{lstlisting}
+console.log(typeof "Nicholas"); //"string"
+console.log(typeof 10); //"number"
+console.log(typeof 5.1); //"number"
+console.log(typeof true); //"boolean"
+console.log(typeof undefined); //"undefined"
+\end{lstlisting}
+
+\subsection{Templates string}
+\begin{lstlisting}
+//ES5
+
+var sitioWeb = "sitio web en ES5";
+var mensaje = 'Bienvenido a ' + sitioWeb;
+console.log(mensaje);
+
+//ES6
+const siteWeb = "sitio web en ES6";
+let message = `Bienvenido a  ${siteWeb}`;
+console.log(message);
+\end{lstlisting}
+
+
+
+
+
+\section{Funciones en \J}
+\subsection{Introducción}
+\begin{itemize}
+\item Las funciones son objetos en \J
+\item Existen dos formas de declararlas:
+\begin{enumerate}
+\item Como declaración:
+\begin{lstlisting}
+function add(num1, num2) {
+  return num1 + num2;
+}
+\end{lstlisting}
+\item Como expresión:
+\begin{lstlisting}
+var add = function(num1, num2) {
+  return num1 + num2;
+};
+\end{lstlisting}
+\end{enumerate}
+\end{itemize}
+Existe una diferencia exencial entre ambas declaraciones: el ámbito de la declaración, las cuales son elevadas al contexto superior del ámbito de la declaración. Es decir podemos declararlas en cualquier lugar y usarla sin problema alguno de visibilidad, cosa que no ocurre al delcararlas como epresión deben ser usadas posteriormente a la misma.\\
+A estas dos formas podemos añadir la forma funcional (funciones \emph{arrow}):
+\begin{lstlisting}
+var add = (num1, num2) =>
+  num1 + num2;
+\end{lstlisting}
+\newpage
+\subsection{Características de las funciones en \J}
+Como son objetos pueden asignarse a variables:
+\begin{lstlisting}
+var sayHi = () =>   console.log("Hi!");
+
+sayHi(); // outputs "Hi!"
+var sayHi2 = sayHi;
+sayHi2();// outputs "Hi!"
+\end{lstlisting}
+
+\subsection{Parámetros por defecto}
+En la mayoría de los lenguajes de programación se permite definir valores predeterminados a los parámetros recibidos en las funciones
+\begin{lstlisting}
+let potencia = (base, exponente = base) => {
+  let resultado = 1;
+  for (let i = 0; i < exponente; i++) {
+    resultado *= base;
+  }
+  return resultado;
+}
+
+console.log(potencia(1)); // muestra 1
+console.log(potencia(2)); // muestra 4
+console.log(potencia(3)); // muestra 27
+console.log(potencia(4)); // muestra 256
+console.log(potencia(4, 2)); // muestra 16
+console.log(potencia(2, 1)); // muestra 2
+
+\end{lstlisting}
+
+
+\subsection{Parámetros rest}
+El operador Rest disponible en Javascript ES6 sirve para recibir cualquier número de parámetros en una función en forma de array.\\
+Esta característica de ES6 nos ofrece otra vía de evitar trabajo repetitivo en las funciones con el tratamiento de parámetros.
+\begin{lstlisting}
+max = (...numeros)  => {
+  if(numeros.length == 0) {
+    return 0;
+  }
+  let max = numeros[0];
+  for(let i = 1; i < numeros.length; i++) {
+    if(numeros[i] > max) {
+      max = numeros[i];
+    }
+  }
+  return max;
+}
+
+console.log(max()); // muesta 0
+console.log(max(0, 10)); // muestra 10
+console.log(max(0, -10)); // muestra 0
+console.log(max(9, -22, 6)); // muestra 9
+
+\end{lstlisting}
+
+
+
+\section{Clousures}
+Para ECMAS5
+\begin{itemize}
+\item Función que encapsula un conjunto de definiciones locales.
+\item Que solo son accesibles a través del objeto interfaz retornado por dicha función
+\item Las variables y funciones locales no se pueden acceder ni ver desde el exterior de una función.
+\item \emph{¡OJO!} Un cierre no instancia sus variables hasta que no se ejecuta (invocar función).
+\end{itemize}
+\begin{lstlisting}
+function cierre(...){
+  //variables internas
+  var variableLocal; 
+  ......
+  //funciones internas
+  function funcionLocal(..) {...};
+  ......
+  //interfaz exterior
+  return parametrosRetorno
+\end{lstlisting}
+\begin{itemize}
+\item La interfaz de un cierre con el exterior es el parámetro de retorno de la función.
+\item Suele ser un objeto JavaScript que da acceso a las variables y funciones locales.
+\item \textbf{Las variables locales de un cierre siguen existiendo si existen referencias a ellas.}
+\item Aunque la función que las engloba haya finalizado su ejecución.
+\item Un cierre permite crear un objeto independiente cada vez que se invoca \textit{(factoría de objetos)}.
+\item Cada objeto tiene sus propias variables y funciones internas, y su propio interfaz de acceso.
+\end{itemize}
+\begin{lstlisting}
+var scope = "global scope"; // A global variable
+function checkscope() { 
+  var scope = "local scope"; // A local variable
+  function f() { return scope; } // Return the value in scope here
+  return f(); 
+}
+checkscope(); // => "local scope"
+\end{lstlisting}
+\newpage
+De otra manera:
+\begin{lstlisting}
+var scope = "global scope"; // A global variable
+function checkscope() { 
+  var scope = "local scope"; // A local variable
+  function f() { return scope; } // Return the value in scope here
+  return f; 
+}
+checkscope()(); // => "local scope"
+\end{lstlisting}
+Este último ejemplo es interesante porque:
+\begin{itemize}
+\item Movemos un par de paréntesis desde el interior a fuera.
+\item Antes se devolvía el valor de la funcion \textit{f()} ahora la funcion \textit{f}
+\item Invocamos al valor de la función fuera del ámbito de la función con el segundo paréntesis de \emph{checkscope()()}
+\item El valor que devuelve f() sigue existiendo aunque previamente se haya ejecutado la llamada a la clousure \emph{checkscope()}
+\end{itemize}
+Otro ejemplo:
+\begin{lstlisting}
+var uniqueInteger = (function() { // Define and invoke
+  var counter = 0; // Private state of function below
+  return function() { return counter++; };
+})();
+console.log(uniqueInteger()); //print 0
+console.log(uniqueInteger()); //print 1
+console.log(uniqueInteger()); //print 2
+\end{lstlisting}
+Podemos devolver en la interfaz de retorno mas de un único valor:
+\begin{lstlisting}
+function counter() {
+  var n = 0;
+  return {
+    count: function() { return n++; },
+    reset: function() { n = 0; }
+  };
+}
+var c = counter(), d = counter(); //Create two counters
+console.log(c.count()); //=>0
+console.log(d.count()); //=>0 they count independently
+c.reset(); // reset() and count() methods share state
+console.log(c.count()); // => 0: because we reset c
+console.log(d.count()); // => => 1: d was not reset
+\end{lstlisting}
+\newpage
+Podemos usar los cierres para crear \textit{getters y setters}
+\begin{lstlisting}
+function counter(n) { // Function argument n is the private variable
+  return {
+  // Property getter method returns and increments private counter var.
+    get count() { return n++; },
+  // Property setter doesn't allow the value of n to decrease
+    set count(m) {
+      if (m >= n) n = m;
+      else throw Error("count can only be set to a larger value");
+    }
+  };
+}
+var c = counter(1000);
+console.log(c.count); // => 1000
+console.log(c.count); // => 1001
+c.count = 2000;
+console.log(c.count); // => 2000
+c.count = 2000 // => Error!*/
+\end{lstlisting}
+Los \emph{cierres} se usan para crear objetos:
+\begin{lstlisting}
+function contador(inic){
+  var _cont = inic; //variable interna
+
+  function contador() { return _cont };
+  function incr() { return ++_cont };
+
+  return { contador: contador,
+           incr:     incr
+         };
+}
+
+var contador_1 = contador(0);
+var contador_2 = contador(7);
+
+console.log(contador_1.contador()); // => 0
+contador_1.incr();
+console.log(contador_1.contador()); // => 1
+
+
+console.log(contador_2.contador()); // => 7
+contador_2.incr();
+console.log(contador_2.contador()); // => 8
+\end{lstlisting}
+\begin{itemize}
+\item La función \emph{contador} permite crear objetos \emph{contador}
+\item El parámetro de esta función inicializa el contador (variable \_cont)
+\item \_cont utiliza el convenio de comenzar por ''\_'' las definiciones no visibles fuera (muy habitual)
+\end{itemize}
+Un programa semejante pero usando un patrón diferente:
+\begin{lstlisting}
+function contador(inic){
+  var _cont = inic; //variable interna
+
+  return { contador: function() { return _cont },
+           incr:     function() { return ++_cont}
+         };
+}
+
+var contador_1 = contador(0);
+var contador_2 = contador(7);
+
+console.log(contador_1.contador()); // => 0
+contador_1.incr();
+console.log(contador_1.contador()); // => 1
+
+
+console.log(contador_2.contador()); // => 7
+contador_2.incr();
+console.log(contador_2.contador()); // => 8
+\end{lstlisting}
+\begin{itemize}
+\item Hay menos código pero menos legible.
+\item En el interfaz los objetos de retorno se construyen.
+\end{itemize}
+\newpage
+
+\section{Clases y herencia}
+En ES5 hacíamos
+\begin{lstlisting}
+function Document(title, author, isPublished) {
+  this.title = title;
+  this.author = author;
+  this.isPublished = isPublished;
+}
+//ad method
+Document.prototype.publish = function publish() {
+  this.isPublished = true;
+};
+//Class inherittance
+function Book(title, author, topic) {
+Document.call(this, title, author, true);
+this.topic = topic;
+}
+Book.prototype = Object.create(Document.prototype);
+\end{lstlisting}
+En ES6 la sintáxis es mas fácil:
+\begin{lstlisting}
+
+class Document {
+  constructor(title, author, isPublished) {
+    this.title = title;
+    this.author = author;
+    this.isPublished = isPublished;
+  }
+  publish(){
+    this.isPublished = true;
+  }
+}
+//Class inherittance
+class Book extends Document{
+  constructor(title, author, topic){
+    super(title, author, true);
+    this.topic = topic;
+  }
+}
+\end{lstlisting}
+
+\newpage
+\section{Colecciones}
+\subsection{Arrays}
+
+\subsubsection{Bucles}
+Los bucles son similares a los usado en otros lenguajes. Muy usado para recorrer colecciones en ES5 es \emph{forEach}
+
+\begin{lstlisting}
+var colors = ['red', 'green', 'blue'];
+for (var i = 0; i < colors.length; i++) 
+  console.log(colors[i]);
+\end{lstlisting}
+Y de otra manera:
+\begin{lstlisting}
+var colors = ['red', 'green', 'blue'];
+colors.forEach(function(color) {
+  console.log(color);
+});
+\end{lstlisting}
+La función pasada a \emph{forEach()} es ejecutada para cada item del array.
+
+\begin{lstlisting}
+//ES5
+var numbers = [1,2,3,4,5];
+numbers.forEach(function(value) {
+  console.log(value);
+});
+//1, 2, 3, 4, 5
+\end{lstlisting}
+En ES6 usamos:
+\begin{lstlisting}
+//ES6
+var numbers = [1,2,3,4,5];
+for(let item of numbers){
+//remember let is useful to define local vars
+console.log(item);
+});
+//1, 2, 3, 4, 5
+\end{lstlisting}
+Existe también el bucle \emph{for .. in}, que itera siempre y cuando sobre propiedades numerables, mientras que \emph{for .. of} solo sobre colecciones.
+\begin{lstlisting}
+//ES6
+var word = "foo";
+for(let item of word){
+  console.log(item);
+});
+//"f", "o", "o"
+
+//ES6
+let iterable = [3, 5, 7];
+iterable.foo = "hello";
+for (let i in iterable) {
+  console.log(i); // logs 0, 1, 2, "foo"
+}
+for (let i of iterable) {
+  console.log(i); // logs 3, 5, 7
+}
+\end{lstlisting}
+
+
+
+
+\subsubsection{Métodos de los arrays}
+Método \textbf{concat()}
+\begin{lstlisting}
+var myArray = new Array("33", "44", "55");
+myArray = myArray.concat("3", "2", "1");
+console.log(myArray);
+// ["33", "44", "55", "3", "2", "1"]
+\end{lstlisting}
+Método \textbf{join()}
+\begin{lstlisting}
+var myArray = new Array('Red','Blue','Yellow');
+var list = myArray.join(" ~ ");
+console.log(list);
+//"Red ~ Blue ~ Yellow"
+\end{lstlisting}
+Método \textbf{pop()}
+\begin{lstlisting}
+var myArray = new Array("1", "2", "3");
+var last = myArray.pop();
+// myArray = ["1", "2"], last = "3"
+\end{lstlisting}
+Método \textbf{push()}
+\begin{lstlisting}
+var myArray = new Array("1", "2");
+myArray.push("3");
+// myArray = ["1", "2", "3"]
+\end{lstlisting}
+Método \textbf{shift()}
+\begin{lstlisting}
+var myArray = new Array ("1", "2", "3");
+var first = myArray.shift();
+// myArray = ["2", "3"], first = "1"
+\end{lstlisting}
+Método \textbf{unshift()}
+\begin{lstlisting}
+var myArray = new Array ("1", "2", "3");
+myArray.unshift("4", "5");
+// myArray = ["4", "5", "1", "2", "3"]
+\end{lstlisting}
+Método \textbf{reverse()}
+\begin{lstlisting}
+var myArray = new Array ("1", "2", "3");
+myArray.reverse();
+// transposes the array so that myArray = [ "3", "2", "1" ]
+\end{lstlisting}
+Método \textbf{sort()}
+\begin{lstlisting}
+var myArray = new Array("A", "C", "B");
+myArray.sort();
+// sorts the array so that myArray = [ "A","B","C" ]
+\end{lstlisting}
+
+
+\newpage
+\subsection{Map}
+El objecto \textbf{Map} nos permite relacionar (mapear) unos valores con otros como si fuera un diccionario, en formato \textbf{clave/valor}.
+\begin{lstlisting}
+//ES6
+let map = new Map();
+map.set('foo', 123);
+let user = {userId: 1};
+map.set(user, 'Alex');
+map.get('foo'); //123
+map.get(user); //Alex
+map.size; //2
+map.has('foo'); //true
+map.delete('foo'); //true
+map.has('foo'); //false
+map.clear();
+map.size; //0
+\end{lstlisting}
+
+\subsection{Set}
+Los sets son conjuntos de elementos no repetidos, que pueden ser tanto objetos, como valores primitivos.\\
+\begin{lstlisting}
+let set = new Set();
+set.add('foo');
+set.add('bar');
+set.size //2
+for(let item of set){
+  console.log(item);
+  }
+//"foo"
+//"bar"
+for(let item of set.entries()){
+  console.log(item);
+}
+//["foo", "foo"]
+//["bar", "bar"]
+set.has('foo'); //true
+set.delete('foo'); //true
+set.has('foo'); //false
+set.size //1
+set.clear();
+set.size //0
+\end{lstlisting}
+
+
+\newpage
+\section{Propiedades de los objetos}
+\begin{itemize}
+\item Podemos añadir propiedades a los objetos en cualquier momento.
+\item Creamos el objeto \emph{var objeto = new Object();}
+\item Añadimos propiedades: \emph{objeto.nombre ='mi nombre';}
+\item Son pares clave/valor que se almacena en el objeto.
+\item Podemos acceder a los valores usando la notación de punto. 
+\item Usando la notación de corchetes.
+\item Ejemplo:
+\begin{lstlisting}
+var array = [];
+array.push(12345);
+//equivalente
+var array = [];
+array["push"](12345);
+\end{lstlisting}
+\end{itemize}
+Otro ejemplo:
+\begin{lstlisting}
+var x = {titulo: 'Avatar', director: 'James Cameron'}
+x.titulo; => 'Avatar'
+x["titulo"]; => 'Avatar'
+\end{lstlisting}
+
+\subsection{Prototipos}
+\begin{itemize}
+\item \J ~ es un lenguaje basado en \emph{prototipos}
+\item La herencia en JavaScript se basa en prototipos.
+\item Todo objeto JavaScript posee un prototipo del cual hereda sus propiedades y métodos.
+\item El prototipo es un objeto como otro cualquiera al que se pueden añadir o quitar propiedades y métodos.
+\item \textbf{Una modificación del prototipo trascenderá a todos los objetos asociados.}
+\item Si borramos un método, este ya no se podrá invocar sobre los objetos enlazados.
+\item Si añadimos un método este se podrá invocar sobre todos los objetos asociados al prototipo.
+\item Todos los objetos creados como literales pertenecen \emph{Object.prototype}
+\item Podemos saberlo con \emph{Object.getPrototypeOf(obj)}
+\end{itemize}
+\begin{lstlisting}
+var objeto = {nombre : 'manuel'};
+Object.getPrototypeOf(objeto); //=> {} 
+//podemos incluirir una propiedad a todos los objetos
+Object.prototype.x=7;
+objeto.x; //=>7
+var otro = {};
+otro.x; //=>7
+delete Object.prototype.x;; //borra la propiedad x del Object.prototype
+objeto.x; //=>undefined NO mantiene la propiedad
+\end{lstlisting}
+
+Ejemplo usando un constructor (recuerda el constructor se escribe en mayúscula)
+\begin{lstlisting}
+function Persona(nombre, apellidos){
+  this.nombre    = nombre;
+  this.apellidos = apellidos;
+}
+
+Persona.prototype = {
+  nombrar: function() { return this.nombre +
+                        ' '+ this.apellidos; }
+}
+
+Persona.prototype.nombrar_oficialmente = function(){
+  return this.apellidos + ', '+ this.nombre;
+}
+
+var persona_1 = new Persona("manuel", "garcia garcia");
+var persona_2 = new Persona("luisa", "morales moral");
+
+console.log(persona_1.nombrar()); //=>manuel garcia garcia
+console.log(persona_2.nombrar()); //=>luisa morales moral
+console.log(persona_1.nombrar_oficialmente()); //=>garcia garcia, manuel
+console.log(persona_2.nombrar_oficialmente()); //=>morales moral, luisa
+\end{lstlisting}
+
+\newpage
+\subsection{Serialización de objeto en \J}
+\begin{itemize}
+\item La serialización de objetos es el proceso de convertir un objeto en un \emph{string} el cuál posteriormente podrá ser restaurado.
+\item Para serializar un objeto usamos \textbf{JSON.stringify()}
+\item Para restaurar el estado usamos \textbf{JSON.parse()}
+\item La serialización es un formato de intercambio de datos:
+\begin{itemize}
+\item Almacenar datos en un fichero.
+\item Enviar datos a través de una línea de comunicación.
+\item Paso de parámetros en interfaces \textit{REST}.
+\end{itemize}
+\end{itemize}
+\begin{lstlisting}
+o = {x:1, y:{z:[false,null,""]}}; // Define a test object
+s = JSON.stringify(o);// s is '{"x":1,"y":{"z":[false,null,""]}}'
+p = JSON.parse(s);// p is a deep copy of o
+\end{lstlisting}
+\begin{itemize}
+\item  \J ~ no serializa todos los tipos de datos.
+\item Pueden serializarse y restaurarse: Objectos, arrays, strings, números finitos, true, false, y null
+\item NaN , Infinity , y -Infinity son serializados a null.
+\item Function, RegExp, y Error (objecto) y el valora undefined no pueden ser serializados.
+\item JSON.stringify() serializar las propiedades susceptibles de ser serializadas, si el valor de una propiedad no es serializable se omite en la salida de este método.
+\end{itemize}
+
+\newpage
+\section{Módulos en \J}
+Un módulo ES6 es un archivo que contiene código \J. \\
+Todo lo declarado dentro de un módulo es local al módulo, por defecto. Si tu quieres que algo declarado en un módulo sea público, para que otros módulos puedan usarlo, debes exportar esa característica. Hay varias maneras de hacer esto. La manera más fácil es añadiendo la palabra clave \emph{export}.\\
+\begin{lstlisting}
+// En circle.js
+const PI = Math.PI;
+
+exports.area = r => PI * r * r;
+exports.circumference = r => 2 * PI * r;
+
+// En otro archivo
+const circle = require('./circle.js');
+console.log('El area de 1 circulo de radio 4 es: ' + circle.area(4));
+\end{lstlisting}
+De vez en cuando, un nombre importado entra en conflicto con algún otro que también es necesario utilizar. ES6 te permite cambiar el nombre de las cosas cuando las importas:
+\begin{lstlisting}
+// En circle.mjs
+const PI = Math.PI;
+
+export const area = r =>   PI * r * r ;
+export const perimetro = r =>   2 * PI * r ;
+
+//en main.mjs
+import { area, perimetro as longitud  } from "./circle.mjs";
+
+console.log('El area de 1 circulo de radio 4 es: ' + area(4));
+console.log('Longitud del circulo de radio 4 es: ' + longitud(4));
+
+//Ejecutamos con
+//node  --experimental-modules main.mjs
+//importante usar la extension mjs
+\end{lstlisting}
+
+
+\end{document}

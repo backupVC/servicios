@@ -1,0 +1,106 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+
+\title{PROYECTO BACKEND}
+\author{Programación de Procesos y Servicios  \\
+	Departamento de Informática \\
+	IES Virgen del Carmen
+	}
+
+\date{\today}
+% Hint: \title{what ever}, \author{who care} and \date{when ever} could stand 
+% before or after the \begin{document} command 
+% BUT the \maketitle command MUST come AFTER the \begin{document} command! 
+\begin{document}
+
+\maketitle
+
+
+\begin{abstract}
+Realización de un backend usando \emph{node.js}, \emph{express}, \emph{mongoose} y \emph{jwt}
+\end{abstract}
+
+\section{Introducción}
+El proyecto corresponde al primero a realizar en este módulo donde se valorará las destrezas desarrolladas durante este primer trimeste.
+
+\paragraph{Tecnologías}
+Las tecnologías a emplear son:
+\begin{itemize}
+\item javascritp ES6
+\item node.js
+\item express
+\item mongoose
+\item mongodb
+\item docker
+\end{itemize}
+
+\newpage
+
+\section{Requisitos funcionales}
+
+\begin{itemize}
+\item El proyecto se realizará de forma individual.
+\item Podrás servir de backend para otros proyectos de otro módulos.
+\item El lenguaje de programación a emplear es \emph{javascript}
+\item Se realizará en el estándar \emph{ECMAScript 6}
+\item Se utilizará \emph{REST} como arquitectura de la aplicación.
+\item Se usará para la persistencia una base de datos \emph{NoSQL}, mas concretamente \emph{MongoDB}
+\item Se utilizará el framework \emph{express} para el desarrollo del servicio web.
+\item Se usará la biblioteca \emph{jwt} para \emph{node} para llevar acabo la autenticación.
+\item Se utilizará un patrón similar a \emph{MVC}
+\item Se definirán dos tipos de rutas, una para la autenticación y otra para la aplicación en particular
+\item Las rutas para la autenticación del usuario constarán, una para alta del usuario y otra para realizar el \emph{login}
+\item El \emph{login} ser realizará mediante un email y el nombre del usuario
+\item La rutas para la aplicación, deberán abarcar todas las operaciones \emph{CRUD} 
+\item Se debe modularizar al máximo la aplicación, por lo que las rutas, controladores y modelos deben estar los mas desacoplados posibles por lo que deben realizarse en carpetas distintas.
+\item La configuración de acceso a  la base de datos se hará en un fichero dentro de una carpeta \emph{config}.
+\item Todos los \emph{endpoints} irán en inglés y relacionado con el significado que realiza cada acción.
+\item Para el modelo se usará \emph{mongoose} para realizar el esquema de acceso a la base de datos. En dicho esquema deberá incluir restricciones como (aquellas que sean necesarias):
+\newpage
+\begin{enumerate}
+\item Campos requeridos.
+\item Valores por defecto.
+\item Expresiones regulares.
+\item \emph{enum} que incluya un conjunto de valores.
+\item Restricciones en valores numéricos
+\item \dots 
+\end{enumerate}
+\item Se usará un repositorio de \emph{git} para el desarrollo del proyecto. Los \emph{commits} deben ser claros y relacionado con lo que se está haciendo. Se llevarán acabo cuando se termine una acción muy determina, por ejemplo finalización del modelo, actualización del controlador con una nueva función, \dots
+\item Se usará una imagen \emph{docker} que englobe la aplicación usando un archivo \emph{Dockerfile}
+\item Se subirá dicha imagen a \emph{Docker Hub}
+\item Se creará un \emph{microservicio} que englobe la \emph{app} y \emph{mongo}, para ello usaremos 
+\end{itemize}
+
+
+
+
+
+\section{Entrega}
+Se entregará los siguientes documentos:
+\begin{itemize}
+\item Un documento de texto que incluya una breve descripción del proyecto, incluyendo una tabla que explique la arquitectura REST a emplear, asi como una descripción del modelo. También se incluirá la URL del gitHub o cualquier otro repositorio donde se encuentre el proyecto. En fichero \emph{README.md} se incluirá los datos anteriores.
+\item En un archivo comprimido se incluirá el proyecto, además un fichero con un array json con valores usados en la BD de mongo usados durante el desarrollo del proyecto.
+\item La imagen realizada con DockerFile
+\item El despliegue del microservicio.
+\end{itemize}
+
+\newpage
+
+\section{Criterios de valoración}
+Los criterios para elaborar la calificación del proyecto son los indicados a continuación:
+\begin{description}
+\item[\emph{1 pto}] El proyecto funciona.
+\item[\emph{1 pto}] Si el proyecto está modularizado usando un patrón similar al \emph{MVC}
+\item[\emph{1 pto}] Por la complejidad del modelo, donde se tendrá en cuenta restricciones, tipos de datos, \dots
+\item[\emph{1 pto}] Uso de un repositorio de \emph{git}, teniendo en cuenta \emph{commits} claros y el fichero \emph{README.md} descriptivo.
+\item[\emph{1 pto}] Uso de \emph{E6} en todo el proyecto.
+\item[\emph{1 pto}] Si el proyecto utiliza autenticación mediante \emph{token}
+\item[\emph{1 pto}] Uso de código limpio, valorándose el uso del inglés en el desarrollo de la aplicación.
+\item[\emph{1 pto}] Documentación clara y precisa.
+\item[\emph{1 pto}] Por el uso de \emph{Docker}
+\item[\emph{1 pto}] Exposición del proyecto, donde quede claro el manejo y conocimiento de las tecnologías empleadas.
+
+\end{description}
+
+\end{document}

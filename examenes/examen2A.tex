@@ -1,0 +1,131 @@
+\documentclass[addpoints]{exam}
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx}
+\usepackage{color}
+
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+
+\usepackage{listings}
+\lstset{language=Java,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\ttfamily,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
+}
+%$
+
+
+\pagestyle{empty}
+\pointname{ punto}
+\begin{document}
+\begin{center}
+\begin{Huge}
+EXAMEN SEGUNDA EVALUACIÓN
+\end{Huge}
+\vspace{0.06in}
+
+\begin{huge}
+Programación de Servicios y Procesos
+\end{huge}\\
+\vspace{0.09in}
+
+\begin{LARGE}
+Examen tipo A
+\end{LARGE}
+\vspace{0.1in}
+
+\end{center}
+\begin{center}
+\fbox{\fbox{\parbox{5.5in}{\centering
+Lee el enunciado del examen detenidamente y realiza los programas que se solicita y recuerda leer el apartado de subida de examen para conocer los archivos a entregar}}}
+\end{center}
+
+Crea un proyecto bien en \emph{Eclipse} o en \emph{Netbeans}. Crea un proyecto de Java denominado \emph{examen} y crea dos paquetes denominados \emph{ejercicio1} y \emph{ejercicio2}.
+\vspace{0.1in}
+\section{EJERCICIO 1}
+Queremos realizar un programa informático que cree un nuevo proceso y ejecute un programa, bienGNU/Linux o bien en Windows. \\
+\begin{itemize}
+\item Leeremos como argumentos el comando a ejecutar. (Obligatorio)
+\item Debes crear el proceso con las clases \emph{Runtime} y \emph{Process}
+\item Debes leer la salida estándar usando un \emph{InputStream}
+\item Posteriormente mostrarla en consola.
+\end{itemize}
+
+\section{EJERCICIO 2}
+Queremos realizar un programa que lea un fichero \emph{CSV} con datos de coche y manipule dichos datos, para esto crea el siguiente proyecto de \emph{Java}:
+\begin{itemize}
+\item Crea una clase \emph{POJO} que mapee los datos del fichero CSV \emph{marca, modelo  año}. Llama a dicha clase \emph{Coche}
+\item Una clase denominada \emph{LecturaCoches} que lea los datos del fichero y guarde objetos \emph{Coche} en una lista dinámica. Dicha clase contendrá el método \emph{main}
+\item Crea una clase denominada \emph{MarcaCoches} que extienda de \emph{Thread} o implemente \emph{Runnable} y que tenga como atributos la lista dinámica de los coches y una marca, y que pueda ejecutar en paralelo la búsqueda de coches según la marca. También tendrá un método que devolverá el número de coches de esa marca.
+\item En la clase \emph{LecturaCoches} ejecutaras tres hilos en paralelo que realice la búsqueda del número de coches de las marcas \emph{Mercedes-Benz, Ford y Suzuki}. Cada marca se busca en un hilo independiente. Acabada la ejecución de los hilos se mostrará los resultados.
+\item Crea una clase denominada \emph{AnnoFabricacion} que tenga como atributos la lista dinámica de coches y el año de fabricación. Dicha clase debe extender de de \emph{Thread} o implementar \emph{Runnable} y pueda ejecutar en paralelo la búsqueda del  número de coches que corresponde a ese año del modelo. Implementa un método que devuelva este resultado.
+\item En la clase \emph{LecturaCoches} crea una colección de 14 hilos de tipo \emph{AnnoFabricacion} y usando un \emph{pool de hilos} implementado con \emph{ExecutorService}, realiza la búsqueda de coches cuya fabricación esté comprendida entre 2000 y 2014 (ésta última fecha no se incluirá). Cada hilo realiza la búsqueda de un año. El número de hilos que se pueden ejecutar en paralelo debe coincidir con el doble del número de núcleos del procesador. Una vez acabado el \emph{pool de hilos} se mostrarán los datos.
+\item Crea una clase denominada \emph{EliminarCochePorMarca} que que extienda de \emph{Thread} o implemente \emph{Runnable} y que tenga como atributos la lista dinámica de los coches y la marca de coches a eliminar.
+\item En la clase \emph{LecturaCoches} crea 10 hilos anónimos (sin referencia) de la clase anterior y teniendo en cuenta el tema de sincronización, muestra el número de coches total antes de lanzar los hilos y posteriormentes el tamaño de la nueva lista
+\end{itemize}
+Ejecuta el programa varias veces para que siempre obtengas los mismos resultados. Ten encuenta que la manipulación de datos se realiza en la lista dináminca que se encuentra en memoria, nunca en el fichero.
+
+\section{CRITERIOS DE EVALUACIÓN}
+
+
+
+
+\subsection{Ejercicio 1} 
+\begin{description}
+\item[1 pto] Por la creación del proceso.
+\item[1 pto] Por el uso correcto del \emph{inputstream}
+\end{description}
+\subsection{Ejercicio 2}
+\begin{description}
+\item[0.5 ptos] por la clase \emph{POJO} con todas las utilidades
+\item[0.5 ptos] por la clase \emph{MarcaCoches}
+\item[0.5 ptos] por la clase \emph{AnnoFabricacion}
+\item[0.5 ptos] por la clase \emph{EliminarCochePorMarca}
+\item[1 pto] por la lectura del fichero \emph{csv}, creación de la lista dinámica de objetos \emph{Coche}
+\item[1 pto] por obtener correctamente los resultados de la búsqueda de los coches por la marca del mismo.
+\item[1 pto] por el uso de pool de hilos y la muestra correcta de los datos.
+\item[1 pto] por la tarea de sincronización
+
+\end{description}
+\section{DOCUMENTACIÓN A ENTREGAR}
+Se entregará el proyecto del IDE comprimido a la plataforma
+\vspace{0.5cm}
+\begin{center}
+\begin{large}
+\textbf{\textit{NO SE CORRIGE LOS EJERCICIOS SI ESTOS PRESENTAN ERRORES DE COMPILACIÓN}
+}\end{large}
+\end{center}
+\newpage
+Ejemplo de uso de \emph{pool de hilos}:
+\begin{lstlisting}
+package com.journaldev.threadpool;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class SimpleThreadPool {
+
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(5);
+        for (int i = 0; i < 10; i++) {
+            Runnable worker = new WorkerThread("" + i);
+            executor.execute(worker);
+          }
+        executor.shutdown();
+        while (!executor.isTerminated()) {
+        }
+        System.out.println("Finished all threads");
+    }
+}
+\end{lstlisting}
+\end{document}

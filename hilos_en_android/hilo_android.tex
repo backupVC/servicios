@@ -1,0 +1,199 @@
+\documentclass[4paper]{article}
+\usepackage[spanish]{babel}
+%\usepackage[ansinew]{inputenc}
+\usepackage[utf8x]{inputenc}
+%\usepackage[utf-8]{inputenc}
+%\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{float}
+\usepackage{hyperref}
+%\usepackage{longtable}
+%\usepackage{array}
+%\usepackage{multirow}
+%\usepackage[latin1]{inputenc}
+%\inputencoding{latin}
+\newcommand{\A}{Android }
+\newcommand{\N}{node.js}
+\newcommand{\HT}{Hilos en Android}
+
+%\newcommand{\j}{JavaScript }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Para escribir codigo en latex
+\usepackage{listings}
+\usepackage{color}
+
+
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstset{
+   language=JavaScript,
+   backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+  % numbers=left,
+   numberstyle=\footnotesize,
+   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\tablename}{Tabla}
+\renewcommand{\S}{ \p}
+\author{Manuel Molino Milla}
+\title{\textbf{\HT}}
+\date{\today}
+
+\begin{document}
+\maketitle 
+\tableofcontents
+\newpage
+
+\section{Introducción}
+\subsection{Generalidades}
+Cuando una aplicación de \A arranca, se crea un proceso en \emph{Linux} y un hilo (\emph{main}) y todos los componentes corren en dicho proceso e hilo\\
+Sin embargo podemos hacer que componenentes de la aplicación corran en diferentes hilo.
+\subsection{Procesos}
+La entrada de manifiesto de cada tipo de elemento de componente:
+\begin{verbatim}
+<activity>, <service>, <receiver> y <provider>
+\end{verbatim}
+admite un atributo \emph{android:process} que puede especificar un proceso en el cual el componente debe ejecutarse. \\
+Se puede establecer este atributo para que cada componente se ejecute en su propio proceso o para que algunos componentes compartan un proceso y otros no.\\
+Android puede decidir finalizar un proceso en algún momento, cuando la memoria es baja y la requieren otros procesos que son inmediatamente más necesarios para lo que el usuario desea. En consecuencia, los componentes de la aplicación que se ejecutan en el proceso que se cancela son destruidos\\
+Cuando se decide qué procesos cancelar, el sistema Android pondera su importancia relativa para el usuario. Por ejemplo, cierra más prontamente un proceso que aloja actividades que ya no se ven en la pantalla que un proceso que aloja actividades visibles
+
+\subsection{Ciclo de vida de los procesos}
+El sistema Android trata de mantener el proceso de una aplicación el mayor tiempo posible; pero , finalmente, necesita quitar los procesos viejos a fin de recuperar memoria para procesos nuevos o más importantes. Para determinar qué procesos mantener y cuáles finalizar, el sistema coloca cada proceso en una \emph{jerarquía de importancia} según los componentes que se ejecutan en el proceso y el estado de esos componentes. Los procesos con la importancia más baja se eliminan primero, luego, los siguientes con la importancia más baja y así sucesivamente, según sea necesario para recuperar recursos del sistema.\\
+
+
+\newpage
+
+
+\section{Subprocesos}
+\subsection{Introduccion}
+Cuando una aplicación se inicia, el sistema crea un subproceso de ejecución para la aplicación, que se denomina \emph{main}. Este subproceso es muy importante porque está a cargo de distribuir eventos a los \emph{widgets} correspondientes de la interfaz de usuario, incluidos los eventos de dibujo. También es el subproceso en el cual tu aplicación interactúa con los componentes del kit de herramientas de la IU de Android (componentes de los paquetes \emph{android.widget} y \emph{android.view}). Por esto, al subproceso principal también se lo suele denominar el subproceso de IU.\\
+El sistema no crea un subproceso separado para cada instancia de un componente. Se crean instancias de todos los componentes que se ejecutan en el mismo proceso en el subproceso de IU, y las llamadas del sistema a cada componente se distribuyen desde ese subproceso. Por lo tanto, los métodos que responden a las callbacks del sistema (como onKeyDown() para informar acciones del usuario o un método callback de ciclo de vida) siempre se ejecutan en el subproceso de IU del proceso.\\
+Por ejemplo, cuando el usuario toca un botón en la pantalla, el subproceso de IU de la aplicación distribuye el evento de toque al widget, el cual, a su vez, establece su estado presionado y publica una solicitud de invalidación en la cola de eventos. El subproceso de IU saca de la cola la solicitud y notifica al widget que debe volver a dibujarse.\\
+Cuando la aplicación realiza trabajo intensivo en respuesta a una interacción del usuario, este modelo de subproceso único puede generar un rendimiento deficiente, a menos que implemente la aplicación de una manera correcta.\\
+Específicamente, si todo sucede en el subproceso de IU, realizar operaciones prolongadas, como acceder a la red o consultar la base de datos, bloqueará toda la IU. \\
+Lo que es peor, si el subproceso de IU está bloqueado por más de unos pocos segundos (unos 5 segundos actualmente), al usuario se le presenta el infame cuadro de diálogo \emph{la aplicación no responde} (ANR).\\
+Además, el paquete de herramientas de la IU de Android no es seguro para subprocesos. Así que no se debe manipular la IU desde un subproceso de trabajo (debes realizar la manipulación de la interfaz de usuario desde el subproceso de IU).\\
+Debemos tener en cuenta:
+\begin{itemize}
+\item No bloquear el subproceso de IU
+\item No acceder al paquete de herramientas de la IU de Android desde fuera del subproceso de IU
+\end{itemize}
+
+\newpage
+
+\subsection{Ejemplo de subproceso}
+\begin{lstlisting}
+public void onClick(View v) {
+    new Thread(new Runnable() {
+        public void run() {
+            Bitmap b = loadImageFromNetwork("http://example.com/image.png");
+            mImageView.setImageBitmap(b);
+        }
+    }).start();
+}
+\end{lstlisting}
+Este codigo descarga una imagen en un \emph{hilo} separado, pero no conseguiría establecer la imangen en la IU. (\emph{no se puede acceder al paquete de herramientas de la IU de Android desde fuera del subproceso de IU}). En este caso un \emph{ImageView} de la IU principal.\\
+Se puede usar el método \emph{post} de la clase \emph{View} que permitie que el objeto \emph{Runnable} sea añadido a la IU principal.
+\begin{quote}
+\emph{boolean post (Runnable action)}\\
+Donde \emph{action} es la acción a ejecutar en un hilo aparte\\
+Y devuelve \emph{boolean} indicando que el el objeto \emph{Runnable} ha sido añadido a la cola 	de mensajes de la IU.
+\end{quote}
+El código quedaría:
+\begin{lstlisting}
+public void onClick(View v) {
+    new Thread(new Runnable() {
+        public void run() {
+            final Bitmap bitmap =
+                    loadImageFromNetwork(
+                           "http://example.com/image.png");
+            mImageView.post(new Runnable() {
+                public void run() {
+                    mImageView.setImageBitmap(bitmap);
+                }
+            });
+        }
+    }).start();
+}
+\end{lstlisting}
+No obstante, a medida que la complejidad de la operación se incrementa, este tipo de código puede volverse complicado y difícil de mantener. \\
+Lo mas idóneo es usar un \emph{Handler} y para esto \A tiene una clase \emph{AsyncTask} que simplifica la tarea.
+
+\newpage
+
+\section{AsyncTask}
+\begin{itemize}
+\item \emph{AsyncTask} te permite realizar trabajo asincrónico en la interfaz de usuario. Realiza las operaciones de bloqueo en un subproceso de trabajo y, luego, publica los resultados en el subproceso de IU, sin que tú tengas que manejar los subprocesos o los controladores.
+\item Para usarla, creamos una subclase de la \emph{AsyncTask} e implementar el método de callback \emph{doInBackground()}, que se ejecuta en un grupo de subprocesos en segundo plano.
+\item  Para actualizar la IU, se implementa \emph{onPostExecute()}, que entrega el resultado de \emph{doInBackground()} y se ejecuta en el subproceso de IU.
+\end{itemize}
+\begin{lstlisting}
+public void onClick(View v) {
+    new DownloadImageTask().execute("http://example.com/image.png");
+}
+
+private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+    /** The system calls this to perform work in a worker thread and
+      * delivers it the parameters given to AsyncTask.execute() */
+    protected Bitmap doInBackground(String... urls) {
+        return loadImageFromNetwork(urls[0]);
+    }
+
+    /** The system calls this to perform work in the UI thread and delivers
+      * the result from doInBackground() */
+    protected void onPostExecute(Bitmap result) {
+        mImageView.setImageBitmap(result);
+    }
+}
+\end{lstlisting}
+\begin{lstlisting}
+public class MiTarea extends AsyncTask<Params, Progress, Result> {
+}
+\end{lstlisting}
+\begin{description}
+\item[Params] Datos que pasaremos al comenzar la tarea
+\item[Progress] Parámetros que necesitaremos para actualizar la UI.
+\item[Result] Dato que devolveremos una vez terminada la tarea.
+\end{description}
+
+\newpage
+
+Información general:
+\begin{itemize}
+\item Se puede especificar el tipo de parámetros, de valores de progreso y el valor final de la tarea con genéricos.
+\item El método \emph{doInBackground()} se ejecuta automáticamente en un subproceso de trabajo.
+\item \emph{onPreExecute(), onPostExecute(), y onProgressUpdate()} se invocan en el subproceso de la IU.
+\item El valor que devuelve \emph{doInBackground()} se envía a \emph{onPostExecute()}.
+\item Se puedes llamar a \emph{publishProgress()} en cualquier momento en \emph{doInBackground()} para ejecutar \emph{onProgressUpdate()} en el subproceso de la IU.
+\item Se puede cancelar la tarea en cualquier momento, desde cualquier subproceso.
+\item \href{https://jarroba.com/asynctask-en-android/}{Ejemplo}
+\end{itemize}
+
+\end{document}
